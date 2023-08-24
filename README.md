@@ -1,8 +1,8 @@
 # :muscle: Решатель квадратных уравнений :muscle:
 #### Это одна из возможных реализаций программы с данным функционалом
-![Alt text](image-2.png)
+![](https://github.com/newbie-rus/solve_square/blob/main/kod_test.png?raw=true)
 
-![Alt text](image-1.png)
+![](https://github.com/newbie-rus/solve_square/blob/main/kod_user.png?raw=true)
 ## Как установить
 1)Перейдите в раздел релизов и скачайте все файлы, кроме readme.md
 
