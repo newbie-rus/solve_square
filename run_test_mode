@@ -1,0 +1,3 @@
+g++ -DTEST square.cpp square_function.cpp -o square.out
+./square.out
+rm square.out
