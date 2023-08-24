@@ -1,120 +1,25 @@
 
 const double EPSILON = 1e-10;
-const int AMOUNT_COEFFS = 3;
-const int AMOUNT_ROOTS = 2;
 
-enum NAME_ROOTS {
-                  X1 = 0,
-                  X2 = 1,
-                  X1_REF = 0,
-                  X2_REF = 1
-                };
+enum {
+       NO_NUM_TEST = -1,
+       NO_ROOTS = 0,
+       ONE_ROOT = 1,
+       TWO_ROOTS = 2,
+       INFINITY_ROOTS = 100,
+       NO_VALID_ROOTS = 777
+     };
 
-enum NAME_COEFFS {
-                   A = 0,
-                   B = 1,
-                   C = 2
-                  };
-
-enum AMOUNT_ROOTS {
-                    NO_NUM_TEST = -1,
-                    NO_ROOTS = 0,
-                    ONE_ROOT = 1,
-                    TWO_ROOTS = 2,
-                    INFINITY_ROOTS = 100,
-                    NO_VALID_ROOTS = 777
-                  };
-
-
-//---------------------------------------------------------------------------
-//!Осуществляет ввод коэффициентов
-//!
-/// @param [in]  name             name - имя коэффициента уравнения
-/// @param [in]  coefficient      coefficient - указатель на первый элемент массива содержащего коэффициенты уравнения
-/// @param [out] coefficient[A]   coefficient[A] - значение коэффициента a
-/// @param [out] coefficient[B]   coefficient[B] - значение коэффициента b
-/// @param [out] coefficient[C]   coefficient[C] - значение коэффициента c
-/// @note В случае некоректного ввода дает новую попытку
-//---------------------------------------------------------------------------
-void input_coefficient (char name, double* coefficient);
-
-
-//---------------------------------------------------------------------------
-//!Чистит буфер ввода
-//!
-/// @note Очищает всё до конца файла или символа новой строки
-//---------------------------------------------------------------------------
-void clear_the_input_buffer (void);
-
-
-//---------------------------------------------------------------------------
-//!Определяет какое уравнение было задано(линейное/квадратное) и вызывает функцию, решающую соответствуещее уравнение
-//!
-/// @param [in]  coeff   coeff - указатель на первый элемент массива, содержащего коэффициенты уравнения
-/// @param [in]  roots   roots - указатель на первый элемент массива, содержащего корни уравнения
-/// @return количество корней
-/// @note В случае бесконечного количества корней возвращает INFINITY_ROOTS
-//---------------------------------------------------------------------------
-int solve_equation(double* coeff, double* roots);
-
-
-//---------------------------------------------------------------------------
-//!Решает линейное уравнение bx +c = 0
-//!
-/// @param [in]  coeff   coeff - указатель на первый элемент массива, содержащего коэффициенты уравнения
-/// @param [in]  roots   roots - указатель на первый элемент массива, содержащего корни уравнения
-/// @param [out] roots[X1]  roots[X1] - значение первого корня уравнения
-/// @return количество корней
-/// @note В случае бесконечного количества корней возвращает INFINITY_ROOTS
-//---------------------------------------------------------------------------
-int solution_of_a_linear_equation (double* coeff, double* roots);
-
-
-//---------------------------------------------------------------------------
-//!Решает квадратное уравнение ax^2 + bx + c = 0
-//!
-/// @param [in]  coeff      coeff - указатель на первый элемент массива, содержащего коэффициенты уравнения
-/// @param [in]  roots      roots - указатель на первый элемент массива, содержащего корни уравнения
-/// @param [out] roots[X1]  roots[X1] - значение первого корня уравнения
-/// @param [out] roots[X2]  roots[X2] - значение первого корня уравнения
-/// @return количество корней
-//---------------------------------------------------------------------------
-int solution_of_a_quadratic_equation (double* coeff, double* roots);
-
-
-//---------------------------------------------------------------------------
-//!Выводит корни в консоль
-//!
-/// @param [in]  solutions     solutions - количество корней
-/// @param [in]  roots         roots - указатель на первый элемент массива, содержащего корни уравнения
-//---------------------------------------------------------------------------
-void output_roots (int solutions, double* roots);
-
-
-//---------------------------------------------------------------------------
-//!Проверяет число на равенство нулю
-//!
-/// @param [in]  num   num - число, которое необходимо сравнить с нулем
-/// @return true - если число равно нулю и false - если число не равно нулю
-//---------------------------------------------------------------------------
+double input_coefficient (char name);    //объявление функции осуществляющей ввод значений коэффициентов
+void clear_the_input_buffer (void);    //объявление функции очищающей буфер scanf
+void solve_equation (double a, double b, double c, double* px1, double* px2, int* p_solutions);    //объявление функции определяющей какое уравнение задал пользователь(линейное/квадратное)
+int solution_of_a_linear_equation (double b, double c, double* px1);   //объявление функции ищущей корни линейного уравнения
+int solution_of_a_quadratic_equation (double a, double b, double c, double* px1, double* px2);   //объявление функции ищущей корни квадратного уравнения
+void output_roots (int solutions, double x1, double x2);    //объявление функции осуществляющей вывод корней уравнения
 bool iszero (double num);
-
-
-//---------------------------------------------------------------------------
-//!Решает квадратное уравнение ax^2 + bx + c = 0
-//!
-/// @param [in]  coeff            coeff - указатель на первый элемент массива, содержащего коэффициенты уравнения
-/// @param [in]  roots            roots - указатель на первый элемент массива, содержащего корни уравнения
-/// @param [in]  roots_ref        roots_ref - указатель на первый элемент массива, содержащего правильные корни уравнения
-/// @param [in]  solutions        solutions - количество корней
-/// @param [in]  solutions_ref    solutions_ref - указатель на первый элемент массива, содержащего посчитанные корни уравнения
-/// @param [in]  c  c - коеффициент
-/// @param [out] x1  x1 - значение первого корня уравнения
-/// @param [out] x2  x2 - значение второго корня уравнения
-/// @return количество корней
-/// @note В случае бесконечного количества корней возвращает INFINITY_ROOTS
-//---------------------------------------------------------------------------
-void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
-void test_finished_error(double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
-void test(void);
 bool equality_double(double num1, double num2);
+void dispatcher (double* a, double* b, double* c, double* x1_ref, double* x2_ref, int* solutions_ref,
+                 double* x1, double* x2, int* solutions);
+void test_finished_error(double* a, double* b, double* c, double* x1_ref, double* x2_ref, int* solutions_ref,
+                         double* x1, double* x2, int* solutions);
+void test(void);

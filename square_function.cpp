@@ -3,81 +3,69 @@
 #include <assert.h>
 #include "square.h"
 
-int solve_equation(double* coeff, double* roots)
+void solve_equation(double a, double b, double c, double* px1, double* px2, int* p_solutions)
 {
-    double a = coeff[A],
-           b = coeff[B],
-           c = coeff[C];
-
     assert (isfinite (a));
     assert (isfinite (b));
     assert (isfinite (c));
-    assert (coeff != NULL);
-    assert (roots != NULL);
-    assert(roots != coeff);
+    assert (px1 != NULL);
+    assert (px2 != NULL);
+    assert (p_solutions != NULL);
+    assert(px1 != px2);
 
     if (iszero (a))
-        return solution_of_a_linear_equation (coeff, roots);
+        *p_solutions = solution_of_a_linear_equation (b, c, px1);
     else
-        return solution_of_a_quadratic_equation (coeff, roots);
+        *p_solutions = solution_of_a_quadratic_equation ( a, b, c, px1, px2);
 }
 
-int solution_of_a_linear_equation (double* coeff, double* roots)
+int solution_of_a_linear_equation (double b, double c, double* px1)
 {
-    double b = coeff[B],
-           c = coeff[C];
-
     assert (isfinite (b));
     assert (isfinite (c));
-    assert (coeff != NULL);
-    assert (roots != NULL);
-    assert(roots != coeff);
+    assert (px1 != NULL);
 
     if (!iszero (b))
     {
-        roots[X1] = -c / b;
+        *px1 = -c / b;
         return ONE_ROOT;
     }
     else
     {
-        if (iszero (b))
+        if (iszero (c))
             return INFINITY_ROOTS;
         else
             return TWO_ROOTS;
     }
 }
 
-int solution_of_a_quadratic_equation (double* coeff, double* roots)
+int solution_of_a_quadratic_equation (double a, double b, double c, double* px1, double* px2)
 {
-    double a = coeff[A],
-           b = coeff[B],
-           c = coeff[C];
-
     assert (isfinite (a));
     assert (isfinite (b));
     assert (isfinite (c));
-    assert (coeff != NULL);
-    assert (roots != NULL);
-    assert(roots != coeff);
+    assert (px1 != NULL);
+    assert (px2 != NULL);
+    assert(px1 != px2);
 
     double D = b * b - 4 * a * c;    //объявление дискриминанта
     if (iszero (D))
     {
-        roots[X1] = -b / (2 * a);
+        *px1 = -b / (2 * a);
         return ONE_ROOT;
     }
     else if (D >= EPSILON)
     {
         double sqrtD = sqrt (D);
-        roots[X1] = (-b + sqrtD) / (2 * a);
-        roots[X2] = (-b - sqrtD) / (2 * a);
+        *px1 = (-b + sqrtD) / (2 * a);
+        *px2 = (-b - sqrtD) / (2 * a);
         return TWO_ROOTS;
     }
     else
         return NO_ROOTS;
 }
 
-void input_coefficient (char name, double* coefficient)
+double input_coefficient (char name)
 {
     printf ("Введите значение коэффициента \'%c\': \n", name);
 
@@ -87,28 +75,12 @@ void input_coefficient (char name, double* coefficient)
         clear_the_input_buffer ();
         printf ("Введено некоректное значение, попробуйте ввести коэффициент \'%c\' заново:\n", name);
     }
-    clear_the_input_buffer ();
-    switch(name)
-    {
-        case 'a':
-            coefficient[A] = coeff;
-            break;
-        case 'b':
-            coefficient[B] = coeff;
-            break;
-        case 'c':
-            coefficient[C] = coeff;
-            break;
-        default:
-            break;
-    }
+
+    return coeff;
 }
 
-void output_roots (int solutions, double* roots)
+void output_roots (int solutions, double x1, double x2)
 {
-    double x1 = roots[X1],
-           x2 = roots[X2];
-
     assert (isfinite (x1));
     assert (isfinite (x2));
 
@@ -150,78 +122,66 @@ bool iszero (double num)
 
 void test(void)
 {
-    FILE * fp = fopen("input_data_test", "r");
+    FILE* fp = fopen("input_data_test", "r");
     int amount_test= NO_NUM_TEST;
     fscanf(fp, "%d", &amount_test);
     for(int test_idx = 1; test_idx <= amount_test; test_idx++)
     {
-        double coeffs[AMOUNT_COEFFS] = {NAN, NAN, NAN};
-        double roots_ref[AMOUNT_ROOTS] = {NAN, NAN};
-        double roots[AMOUNT_ROOTS] = {NAN, NAN};
+        double a, b, c, x1, x2, x1_ref, x2_ref;
+        a = b = c = x1 = x2 = x1_ref = x2_ref = NAN;
         int solutions = NO_VALID_ROOTS;
         int solutions_ref = NO_VALID_ROOTS;
 
         printf("\033[35mtest %d:  \033[0m", test_idx);
-        fscanf(fp, "%lf %lf %lf %lf %lf %d", &coeffs[A], &coeffs[B], &coeffs[C], &roots_ref[X1_REF], &roots_ref[X2_REF], &solutions_ref);
+        fscanf(fp, "%lf %lf %lf %lf %lf %d", &a, &b, &c, &x1_ref, &x2_ref, &solutions_ref);
 
-        solutions = solve_equation(coeffs, roots);
+        solve_equation(a, b, c, &x1, &x2, &solutions);
 
-        dispatcher(coeffs, roots, roots_ref, solutions, solutions_ref);
+        dispatcher(&a, &b, &c, &x1_ref, &x2_ref, &solutions_ref, &x1, &x2, &solutions);
     }
 
     fclose(fp);
 }
 
-void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref)
+void dispatcher (double* a, double* b, double* c, double* x1_ref, double* x2_ref, int* solutions_ref,
+                double* x1, double* x2, int* solutions)
 {
-    double  x1 = roots[X1],
-            x2 = roots[X2],
-            x1_ref = roots_ref[X1_REF],
-            x2_ref = roots_ref[X2_REF];
-
-    if (solutions_ref == solutions)
+    if (*solutions_ref == *solutions)
     {
-        switch(solutions_ref)
+        switch(*solutions_ref)
         {
             case NO_ROOTS:
-                if ((isnan(x1) != 0) && (isnan(x2) != 0) && (isnan(x1_ref) != 0) && (isnan(x2_ref) != 0))
-                    printf("**Завершен успешно**\n");
+                if ((isnan(*x1) != 0) && (isnan(*x2) != 0) && (isnan(*x1_ref) != 0) && (isnan(*x2_ref) != 0))
+                    printf("\033[32m**Завершен успешно**\033[0m\n");
                 break;
             case ONE_ROOT:
-                if (equality_double(x1, x1_ref) && (isnan(x2) != 0) && (isnan(x2_ref) != 0))
-                    printf("**Завершен успешно**\n");
+                if (equality_double(*x1_ref, *x1) && (isnan(*x2) != 0) && (isnan(*x2_ref) != 0))
+                    printf("\033[32m**Завершен успешно**\033[0m\n");
                 break;
             case TWO_ROOTS:
-                if (equality_double(x1, x1_ref) && equality_double(x2, x2_ref))
-                    printf("**Завершен успешно**\n");
+                if (equality_double(*x1_ref, *x1) && equality_double(*x2_ref, *x2))
+                    printf("\033[32m**Завершен успешно**\033[0m\n");
                 break;
             case INFINITY_ROOTS:
-                if ((isnan(x1) != 0) && (isnan(x2) != 0) && (isnan(x1_ref) != 0) && (isnan(x2_ref) != 0))
-                    printf("**Завершен успешно**\n");
+                if ((isnan(*x1) != 0) && (isnan(*x2) != 0) && (isnan(*x1_ref) != 0) && (isnan(*x2_ref) != 0))
+                    printf("\033[32m**Завершен успешно**\033[0m\n");
                 break;
             default:
-                test_finished_error(coeffs, roots, roots_ref, solutions, solutions_ref);
+                test_finished_error(a, b, c, x1_ref, x2_ref, solutions_ref, x1, x2, solutions);
         }
     }
     else
-        test_finished_error(coeffs, roots, roots_ref, solutions, solutions_ref);
+        test_finished_error(a, b, c, x1_ref, x2_ref, solutions_ref, x1, x2, solutions);
 }
 
-void test_finished_error(double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref)
+void test_finished_error(double* a, double* b, double* c, double* x1_ref, double* x2_ref, int* solutions_ref,
+                         double* x1, double* x2, int* solutions)
 {
-    double  a = coeffs[A],
-            b = coeffs[B],
-            c = coeffs[C],
-            x1 = roots[X1],
-            x2 = roots[X2],
-            x1_ref = roots_ref[X1_REF],
-            x2_ref = roots_ref[X2_REF];
-
-    printf("**Завершен c ошибкой**\n");
-    printf("коэффициенты: a = %lf  b = %lf  c = %lf\n", a, b, c);
-    printf("полученное количество корней: %d\nправильное количество корней: %d\n", solutions, solutions_ref);
-    printf("полученные корни: x1 = %lf  x2 = %lf\n", x1, x2);
-    printf("правильные корни: x1 = %lf  x2 = %lf\n", x1_ref, x2_ref);
+    printf("\033[31m**Завершен c ошибкой**\033[0m\n");
+    printf("коэффициенты: a = %lf  b = %lf  c = %lf\n", *a, *b, *c);
+    printf("полученное количество корней: %d\nправильное количество корней: %d\n", *solutions, *solutions_ref);
+    printf("полученные корни: x1 = %lf  x2 = %lf\n", *x1, *x2);
+    printf("правильные корни: x1 = %lf  x2 = %lf\n", *x1_ref, *x2_ref);
 }
 
 bool equality_double(double num1, double num2)
