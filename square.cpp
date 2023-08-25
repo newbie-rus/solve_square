@@ -17,14 +17,11 @@
 
 int main()
 {
-    // TODO move colors to lib
-    // #define RED_COLOR() ...
-
     #ifdef TEST
-        printf("\033[33m**HELLO TEST MODE**\033[0m\n");
+        color_output(hello_t, YELLOW);
         test();
     #else
-        printf("\033[33m**HELLO USER MODE**\033[0m\n");
+        color_output(hello_u, YELLOW);
         printf ("Ваше уравнение имеет вид аx^2 + bx + c = 0, если нет, то приведите к данному виду.\n");
 
         double coefficients[AMOUNT_COEFFS] = {NAN, NAN, NAN};
@@ -35,7 +32,7 @@ int main()
         input_coefficient ('c', coefficients);
 
         int solutions = NO_VALID_ROOTS;
-        solutions = solve_equation (coefficients, roots);
+            solutions = solve_equation (coefficients, roots);
 
         output_roots (solutions, roots);
     #endif

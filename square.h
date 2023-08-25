@@ -1,29 +1,40 @@
 
-const double EPSILON = 1e-10;
+const    double EPSILON = 1e-10;
 const int AMOUNT_COEFFS = 3;
-const int AMOUNT_ROOTS = 2;
+const  int AMOUNT_ROOTS = 2;
+const   char  hello_t[] = "**HELLO TEST MODE**";
+const    char hello_u[] = "**HELLO USER MODE**";
+const     char test_y[] = "**Завершен успешно**";
+const     char test_n[] = "**Завершен c ошибкой**";
+
+enum COLOR {
+                       RED = 31,
+                     GREEN = 32,
+                    YELLOW = 33,
+                    PURPLE = 35
+            };
 
 enum NAME_ROOTS {
-                  X1 = 0,
-                  X2 = 1,
-                  X1_REF = 0,
-                  X2_REF = 1
-                };
+                        X1 = 0,
+                        X2 = 1,
+                    X1_REF = 0,
+                    X2_REF = 1
+                 };
 
 enum NAME_COEFFS {
-                   A = 0,
-                   B = 1,
-                   C = 2
+                    A_COEFF = 0,
+                    B_COEFF = 1,
+                    C_COEFF = 2
                   };
 
 enum AMOUNT_ROOTS {
-                    NO_NUM_TEST = -1,
-                    NO_ROOTS = 0,
-                    ONE_ROOT = 1,
-                    TWO_ROOTS = 2,
+                       NO_NUM_TEST = -1,
+                          NO_ROOTS = 0,
+                          ONE_ROOT = 1,
+                         TWO_ROOTS = 2,
                     INFINITY_ROOTS = 100,
                     NO_VALID_ROOTS = 777
-                  };
+                   };
 
 
 //---------------------------------------------------------------------------
@@ -31,9 +42,9 @@ enum AMOUNT_ROOTS {
 //!
 /// @param [in]  name             name - имя коэффициента уравнения
 /// @param [in]  coefficient      coefficient - указатель на первый элемент массива содержащего коэффициенты уравнения
-/// @param [out] coefficient[A]   coefficient[A] - значение коэффициента a
-/// @param [out] coefficient[B]   coefficient[B] - значение коэффициента b
-/// @param [out] coefficient[C]   coefficient[C] - значение коэффициента c
+/// @param [out] coefficient[A_COEFF]   coefficient[A_COEFF] - значение коэффициента a
+/// @param [out] coefficient[B_COEFF]   coefficient[B_COEFF] - значение коэффициента b
+/// @param [out] coefficient[C_COEFF]   coefficient[C_COEFF] - значение коэффициента c
 /// @note В случае некоректного ввода дает новую попытку
 //---------------------------------------------------------------------------
 void input_coefficient (char name, double* coefficient);
@@ -116,6 +127,7 @@ bool iszero (double num);
 /// @note В случае бесконечного количества корней возвращает INFINITY_ROOTS
 //---------------------------------------------------------------------------
 void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
-void test_finished_error(double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
-void test(void);
-bool equality_double(double num1, double num2);
+void test_finished_error (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
+void test (void);
+bool equality_double (double num1, double num2);
+void color_output (const char* str, int color);
