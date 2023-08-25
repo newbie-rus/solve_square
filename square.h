@@ -126,8 +126,8 @@ bool iszero (double num);
 /// @return количество корней
 /// @note В случае бесконечного количества корней возвращает INFINITY_ROOTS
 //---------------------------------------------------------------------------
-void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
+void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref, int* n_test_y);
 void test_finished_error (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
-void test (void);
+int test (void);
 bool equality_double (double num1, double num2);
 void color_output (const char* str, int color);

@@ -154,9 +154,10 @@ bool iszero (double num)
     return (fabs (num) < EPSILON);
 }
 
-void test (void)
+int test (void)
 {
     FILE* fp = fopen ("input_data_test", "r");
+    int n_test_y = 0;
 
     int amount_test = NO_NUM_TEST;
     fscanf (fp, "%d", &amount_test);
@@ -173,15 +174,16 @@ void test (void)
         fscanf (fp, "%lf %lf %lf %lf %lf %d", &coeffs[A_COEFF],   &coeffs[B_COEFF],   &coeffs[C_COEFF],
                                               &roots_ref[X1_REF], &roots_ref[X2_REF], &solutions_ref);
 
-        solutions = solve_equation (coeffs, roots);
+           solutions = solve_equation (coeffs, roots);
 
-        dispatcher (coeffs, roots, roots_ref, solutions, solutions_ref);
+        dispatcher (coeffs, roots, roots_ref, solutions, solutions_ref, &n_test_y);
     }
 
     fclose (fp);
+    return n_test_y;
 }
 
-void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref)
+void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref, int* n_test_y)
 {
     assert (coeffs    != NULL);
     assert (roots     != NULL);
@@ -200,22 +202,34 @@ void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions
         {
             case NO_ROOTS:
                 if ((isnan (x1) != 0) && (isnan (x2) != 0) && (isnan (x1_ref) != 0) && (isnan (x2_ref) != 0))
+                {
                     color_output (test_y, GREEN);
+                    n_test_y++;
+                }
                 break;
 
             case ONE_ROOT:
                 if (equality_double (x1, x1_ref) && (isnan (x2) != 0) && (isnan (x2_ref) != 0))
-                    color_output (test_y, GREEN);
+                {
+                   color_output (test_y, GREEN);
+                    n_test_y++;
+                }
                 break;
 
             case TWO_ROOTS:
                 if (equality_double (x1, x1_ref) && equality_double (x2, x2_ref))
-                    color_output (test_y, GREEN);
+                {
+                   color_output (test_y, GREEN);
+                    n_test_y++;
+                }
                 break;
 
             case INFINITY_ROOTS:
                 if ((isnan (x1) != 0) && (isnan (x2) != 0) && (isnan (x1_ref) != 0) && (isnan (x2_ref) != 0))
-                    color_output (test_y, GREEN);
+                {
+                   color_output (test_y, GREEN);
+                    n_test_y++;
+                }
                 break;
 
             default:
