@@ -163,11 +163,11 @@ void test (void)
 
     for(int test_idx = 1; test_idx <= amount_test; test_idx++)
     {
-        double    coeffs[AMOUNT_COEFFS] = {NAN, NAN, NAN};
-        double  roots_ref[AMOUNT_ROOTS] = {NAN, NAN};
-        double      roots[AMOUNT_ROOTS] = {NAN, NAN};
-                        int solutions = NO_VALID_ROOTS;
-        int               solutions_ref = NO_VALID_ROOTS;
+          double coeffs[AMOUNT_COEFFS] = {NAN, NAN, NAN};
+        double roots_ref[AMOUNT_ROOTS] = {NAN, NAN};
+            double roots[AMOUNT_ROOTS] = {NAN, NAN};
+                         int solutions = NO_VALID_ROOTS;
+                     int solutions_ref = NO_VALID_ROOTS;
 
         printf ("\033[35mtest %d:  \033[0m", test_idx);
         fscanf (fp, "%lf %lf %lf %lf %lf %d", &coeffs[A_COEFF],   &coeffs[B_COEFF],   &coeffs[C_COEFF],
