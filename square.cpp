@@ -23,8 +23,12 @@ int main()
 {
     #ifdef TEST
         color_output(hello_t, YELLOW);
-
-        return test();
+        if (test() == -1)
+        {
+            printf ("Аварийное завершение функции");
+            return -1;
+        }
+        return 0;
     #else
         color_output(hello_u, YELLOW);
         printf ("Ваше уравнение имеет вид аx^2 + bx + c = 0, если нет, то приведите к данному виду.\n");
@@ -38,9 +42,17 @@ int main()
 
         int solutions = NO_VALID_ROOTS;
             solutions = solve_equation (coefficients, roots);
+        if (solutions == -1)
+        {
+            printf ("Аварийное завершение функции");
+            return -1;
+        }
 
-        output_roots (solutions, roots);
-
+        if (output_roots (solutions, roots) == -1)
+        {
+            printf ("Аварийное завершение функции");
+            return -1;
+        }
         return solutions;
     #endif
 }

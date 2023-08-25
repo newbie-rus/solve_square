@@ -9,12 +9,36 @@ int solve_equation (double* coeff, double* roots)
            b = coeff[B_COEFF],
            c = coeff[C_COEFF];
 
-    assert (isfinite (a)); //TODO добавить свои ассерты с ошибками
-    assert (isfinite (b));
-    assert (isfinite (c));
-    assert (coeff != NULL);
-    assert (roots != NULL);
-    assert (roots != coeff);
+    if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((isfinite (b) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((isfinite (c) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((coeff == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeff), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
     if (iszero (a) || iszero (c))
         return solution_of_a_linear_equation (coeff, roots);
@@ -28,13 +52,36 @@ int solution_of_a_linear_equation (double* coeff, double* roots)
            b = coeff[B_COEFF],
            c = coeff[C_COEFF];
 
-    assert (isfinite (a));
-    assert (isfinite (b));
-    assert (isfinite (c));
-    assert (coeff != NULL);
-    assert (roots != NULL);
-    assert (roots != coeff);
-
+    if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((isfinite (b) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((isfinite (c) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((coeff == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeff), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
     if (iszero (c))
     {
@@ -84,12 +131,36 @@ int solution_of_a_quadratic_equation (double* coeff, double* roots)
            b = coeff[B_COEFF],
            c = coeff[C_COEFF];
 
-    assert (isfinite (a));
-    assert (isfinite (b));
-    assert (isfinite (c));
-    assert (coeff != NULL);
-    assert (roots != NULL);
-    assert (roots != coeff);
+    if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((isfinite (b) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((isfinite (c) == 0), ERROR_ISFINITE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((coeff == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeff), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
     double D = b * b - 4 * a * c;
     if (iszero (D))
@@ -113,7 +184,7 @@ void input_coefficient (char name, double* coefficient)
     printf ("Введите значение коэффициента \'%c\': \n", name);
 
     double coeff = NAN;
-    while (scanf ("%lf", &coeff) == 0 || isfinite (coeff) == 0)
+    while (scanf ("%lf", &coeff) == 0 || isfinite(coeff) == 0)
     {
         clear_the_input_buffer ();
         printf ("Введено некоректное значение, попробуйте ввести коэффициент \'%c\' заново:\n", name);
@@ -140,13 +211,16 @@ void input_coefficient (char name, double* coefficient)
     }
 }
 
-void output_roots (int solutions, double* roots)
+int output_roots (int solutions, double* roots)
 {
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+
     double x1 = roots[X1],
            x2 = roots[X2];
-
-    assert (isfinite (x1));
-    assert (isfinite (x2));
 
     switch (solutions)
     {
@@ -169,6 +243,8 @@ void output_roots (int solutions, double* roots)
         default:
             printf ("ERROR. Произошел сбой: solutions = %d\n", solutions);
     }
+
+    return 0;
 }
 
 void clear_the_input_buffer (void)
@@ -180,7 +256,8 @@ void clear_the_input_buffer (void)
 
 bool iszero (double num)
 {
-    assert (isfinite (num));
+    if (my_assert ((isfinite (num) == 0), ERROR_ISFINITE))
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
 
     return (fabs (num) < EPSILON);
 }
@@ -202,25 +279,62 @@ int test (void)
                      int solutions_ref = NO_VALID_ROOTS;
 
         printf ("\033[35mtest %d:  \033[0m", test_idx);
-        fscanf (fp, "%lf %lf %lf %lf %lf %d", &coeffs[A_COEFF],   &coeffs[B_COEFF],   &coeffs[C_COEFF],
-                                              &roots_ref[X1_REF], &roots_ref[X2_REF], &solutions_ref);
+        fscanf (fp, "%lf %lf %lf %lf %lf %d", &coeffs[A_COEFF], &coeffs[B_COEFF], &coeffs[C_COEFF], &roots_ref[X1_REF], &roots_ref[X2_REF], &solutions_ref);
 
-           solutions = solve_equation (coeffs, roots);
+        solutions = solve_equation (coeffs, roots);
+        if (solutions == -1)
+            return -1;
 
-        dispatcher (coeffs, roots, roots_ref, solutions, solutions_ref, &n_test_y);
+        if (dispatcher (coeffs, roots, roots_ref, solutions, solutions_ref, &n_test_y) == -1)
+            return -1;
     }
 
     fclose (fp);
     return n_test_y;
 }
 
-void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref, int* n_test_y)
+int dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref, int* n_test_y)
 {
-    assert (coeffs    != NULL);
-    assert (roots     != NULL);
-    assert (roots_ref != NULL);
-    assert (solutions_ref >= 0);
-    assert (solutions     >= 0);
+    if (my_assert ((coeffs == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeffs), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == roots_ref), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((coeffs == roots_ref), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == roots_ref && roots == coeffs), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((solutions_ref < 0), UNREAL_VALUE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((solutions < 0), UNREAL_VALUE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
     double      x1 = roots[X1],
                 x2 = roots[X2],
@@ -264,20 +378,56 @@ void dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions
                 break;
 
             default:
-                test_finished_error (coeffs, roots, roots_ref, solutions, solutions_ref);
+                return test_finished_error (coeffs, roots, roots_ref, solutions, solutions_ref);
         }
     }
     else
-        test_finished_error (coeffs, roots, roots_ref, solutions, solutions_ref);
+        return test_finished_error (coeffs, roots, roots_ref, solutions, solutions_ref);
+    return 0;
 }
 
-void test_finished_error (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref)
+int test_finished_error (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref)
 {
-    assert (coeffs    != NULL);
-    assert (roots     != NULL);
-    assert (roots_ref != NULL);
-    assert (solutions_ref >= 0);
-    assert (solutions     >= 0);
+    if (my_assert ((coeffs == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeffs), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == roots_ref), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((coeffs == roots_ref), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == roots_ref && roots == coeffs), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((solutions_ref < 0), UNREAL_VALUE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((solutions < 0), UNREAL_VALUE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
     double       a = coeffs[A_COEFF],
                  b = coeffs[B_COEFF],
@@ -293,12 +443,15 @@ void test_finished_error (double* coeffs, double* roots, double* roots_ref, int 
     printf ("правильное количество корней: %d\n", solutions_ref);
     printf ("полученные корни: x1 = %lf  x2 = %lf\n", x1, x2);
     printf ("правильные корни: x1 = %lf  x2 = %lf\n", x1_ref, x2_ref);
+    return 0;
 }
 
 bool equality_double (double num1, double num2)
 {
-    assert (isfinite (num1));
-    assert (isfinite (num2));
+    if (my_assert ((isfinite (num1) == 0), ERROR_ISFINITE))
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+    if (my_assert ((isfinite (num2) == 0), ERROR_ISFINITE))
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
 
     double R = (num1 - num2);
 
@@ -308,4 +461,15 @@ bool equality_double (double num1, double num2)
 void color_output (const char* str, int color)
 {
     printf ("\033[%dm%s\033[0m\n", color, str);
+}
+
+bool my_assert(bool data, const char* error)
+{
+    if (data)
+    {
+        printf("Сбой в программе ошибка: %s\n", error);
+        return true;
+    }
+    else
+        return false;
 }
