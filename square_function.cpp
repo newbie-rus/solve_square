@@ -16,7 +16,7 @@ int solve_equation (double* coeff, double* roots)
     assert (roots != NULL);
     assert (roots != coeff);
 
-    if (iszero (a))
+    if (iszero (a) || iszero (c))
         return solution_of_a_linear_equation (coeff, roots);
     else
         return solution_of_a_quadratic_equation (coeff, roots);
@@ -24,26 +24,57 @@ int solve_equation (double* coeff, double* roots)
 
 int solution_of_a_linear_equation (double* coeff, double* roots)
 {
-    double b = coeff[B_COEFF],
+    double a = coeff[A_COEFF],
+           b = coeff[B_COEFF],
            c = coeff[C_COEFF];
 
+    assert (isfinite (a));
     assert (isfinite (b));
     assert (isfinite (c));
     assert (coeff != NULL);
     assert (roots != NULL);
     assert (roots != coeff);
 
-    if (!iszero (b))
+
+    if (iszero (c))
     {
-        roots[X1] = -c / b;
-        return ONE_ROOT;
+        if (iszero (a))
+        {
+            if (iszero (b))
+                return INFINITY_ROOTS;
+            else
+            {
+            roots[X1] = 0;
+            return ONE_ROOT;
+            }
+        }
+        else
+        if (iszero (b))
+        {
+            roots[X1] = 0;
+            return ONE_ROOT;
+        }
+        else
+        {
+            roots[X1] = 0;
+            roots[X2] = -b / a;
+            return TWO_ROOTS;
+        }
     }
     else
     {
-        if (iszero (b))
-            return INFINITY_ROOTS;
+        if (!iszero (b))
+        {
+            roots[X1] = -c / b;
+            return ONE_ROOT;
+        }
         else
-            return TWO_ROOTS;
+        {
+            if (iszero (c))
+                return INFINITY_ROOTS;
+            else
+                return NO_ROOTS;
+        }
     }
 }
 
