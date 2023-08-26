@@ -6,10 +6,10 @@
  */
 int test (void)
 {
-    FILE* fp = fopen ("input_data_test", "r");
-    int n_test_y = 0;
+    FILE* fp = fopen ("input_data_test", "r"); // TODO fp is bad name
+    int n_test_y = 0; // TODO what does "y" suffix means? Rename it
 
-    int amount_test = NO_NUM_TEST;
+    int amount_test = NO_NUM_TEST; // TODO use different enum for this constant
     fscanf (fp, "%d", &amount_test);
 
     for(int test_idx = 1; test_idx <= amount_test; test_idx++)
@@ -20,13 +20,30 @@ int test (void)
                               int solutions = NO_VALID_ROOTS;
                           int solutions_ref = NO_VALID_ROOTS;
 
-        printf ("\033[35mtest %d:  \033[0m", test_idx);
+        printf ("\033[35mtest %d:  \033[0m", test_idx); //TODO Use your function to color output
         fscanf (fp, "%Lf %Lf %Lf %Lf %Lf %d", &coeffs[A_COEFF], &coeffs[B_COEFF], &coeffs[C_COEFF], &roots_ref[X1_REF], &roots_ref[X2_REF], &solutions_ref);
 
         solutions = solve_equation (coeffs, roots);
-        if (solutions == -1)
-            return -1;
+        if (solutions == -1)    // TODO use enum here
+            return -1;          // TODO use enum here
 
+        //TODO
+        /*                                                         ,--.                          ____                   ,--,                                   
+                 .--.--.        ,---,.             ,---,.        ,--.'|                        ,'  , `.               ,--.'|     ,---,. ,-.----.        ,---,. 
+         ,--,   /  /    '.    ,'  .' |           ,'  .' |    ,--,:  : |          ,--,       ,-+-,.' _ |            ,--,  | :   ,'  .' | \    /  \     ,'  .' | 
+       ,'_ /|  |  :  /`. /  ,---.'   |         ,---.'   | ,`--.'`|  ' :        ,'_ /|    ,-+-. ;   , ||         ,---.'|  : ' ,---.'   | ;   :    \  ,---.'   | 
+  .--. |  | :  ;  |  |--`   |   |   .'         |   |   .' |   :  :  | |   .--. |  | :   ,--.'|'   |  ;|         |   | : _' | |   |   .' |   | .\ :  |   |   .' 
+,'_ /| :  . |  |  :  ;_     :   :  |-,         :   :  |-, :   |   \ | : ,'_ /| :  . |  |   |  ,', |  ':         :   : |.'  | :   :  |-, .   : |: |  :   :  |-, 
+|  ' | |  . .   \  \    `.  :   |  ;/|         :   |  ;/| |   : '  '; | |  ' | |  . .  |   | /  | |  ||         |   ' '  ; : :   |  ;/| |   |  \ :  :   |  ;/| 
+|  | ' |  | |    `----.   \ |   :   .'         |   :   .' '   ' ;.    ; |  | ' |  | |  '   | :  | :  |,         '   |  .'. | |   :   .' |   : .  /  |   :   .' 
+:  | | :  ' ;    __ \  \  | |   |  |-,         |   |  |-, |   | | \   | :  | | :  ' ;  ;   . |  ; |--'          |   | :  | ' |   |  |-, ;   | |  \  |   |  |-, 
+|  ; ' |  | '   /  /`--'  / '   :  ;/|         '   :  ;/| '   : |  ; .' |  ; ' |  | '  |   : |  | ,             '   : |  : ; '   :  ;/| |   | ;\  \ '   :  ;/| 
+:  | : ;  ; |  '--'.     /  |   |    \         |   |    \ |   | '`--'   :  | : ;  ; |  |   : '  |/              |   | '  ,/  |   |    \ :   ' | \.' |   |    \ 
+'  :  `--'   \   `--'---'   |   :   .'         |   :   .' '   : |       '  :  `--'   \ ;   | |`-'               ;   : ;--'   |   :   .' :   : :-'   |   :   .' 
+:  ,      .-./              |   | ,'           |   | ,'   ;   |.'       :  ,      .-./ |   ;/                   |   ,/       |   | ,'   |   |.'     |   | ,'   
+ `--`----'                  `----'             `----'     '---'          `--`----'     '---'                    '---'        `----'     `---'       `----'     
+                                                                                                                                                                                                                                                                                                                   
+*/
         if (dispatcher (coeffs, roots, roots_ref, solutions, solutions_ref, &n_test_y) == -1)
             return -1;
     }
@@ -35,7 +52,8 @@ int test (void)
     return n_test_y;
 }
 
-
+// TODO bad naming, I don't get what's this function dispatches
+// TODO separate test comparation logic from test's result output. Write another function for the last one
 int dispatcher (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref, int* n_test_y)
 {
     if (my_assert ((coeffs == NULL), PATH_NULL))

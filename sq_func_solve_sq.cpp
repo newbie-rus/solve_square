@@ -12,9 +12,26 @@ int solve_equation (long double* coeff, long double* roots)
                 b = coeff[B_COEFF],
                 c = coeff[C_COEFF];
 
-    if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
+    if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE)) 
     {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        /*
+                _                        
+                \`*-.                    
+                 )  _`-.                 
+                .  : `. .                
+                : _   '  \               
+                ; *` _.   `*-._          
+                `-.-'          `-.       
+                  ;       `       `.     
+                  :.       .        \    
+                  . \  .   :   .-'   .   
+                  '  `+.;  ;  '      :   
+                  :  '  |    ;       ;-. 
+                  ; '   : :`-:     _.`* ;
+[copypasting]  .*' /  .*' ; .*`- +'  `*' 
+               `*-*   `*-*  `*-*'
+        */
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ ); //TODO make define from it
         return -1;
     }
     if (my_assert ((isfinite (b) == 0), ERROR_ISFINITE))
@@ -39,7 +56,7 @@ int solve_equation (long double* coeff, long double* roots)
     }
     if (my_assert ((roots == coeff), SAME_PATHS))
     {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ ); 
         return -1;
     }
 

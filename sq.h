@@ -30,7 +30,7 @@ enum COLOR {
 enum NAME_ROOTS {
                         X1 = 0,
                         X2 = 1,
-                    X1_REF = 0,
+                    X1_REF = 0, // TODO I have an assosiation that ref is a "reference" (cpp feature). Please, rename it to, let's say, X1_CORRECT or somehow else 
                     X2_REF = 1
                  };
 
@@ -41,7 +41,7 @@ enum NAME_COEFFS {
                   };
 
 enum AMOUNT_ROOTS {
-                       NO_NUM_TEST = -1,
+                       NO_NUM_TEST = -1, // TODO what is this?? Either fix it name or remove it from enum
                           NO_ROOTS = 0,
                           ONE_ROOT = 1,
                          TWO_ROOTS = 2,
@@ -151,8 +151,8 @@ bool equality_double (long double num1, long double num2);
 /**
  * @brief Делает вывод в консоль цветным
  *
- * @param [in] str         str - строка, которую нужно вывести определенным цветом
- * @param [in] color     color - цвет, в который должен быть покрашен вывод
+ * @param [in] str         str - строка, которую нужно вывести определенным цветом 
+ * @param [in] color     color - цвет, в который должен быть покрашен вывод // TODO make a link in docs to enum of available color
  */
 void color_output (const char* str, int color);
 

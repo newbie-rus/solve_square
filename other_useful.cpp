@@ -6,6 +6,8 @@
  * @file
  */
 
+// TODO awful file name. Rename it.
+ 
 void clear_the_input_buffer (void)
 {
     int ch = getchar ();
