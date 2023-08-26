@@ -9,8 +9,8 @@
 int solve_equation (long double* coeff, long double* roots)
 {
     long double a = coeff[A_COEFF],
-           b = coeff[B_COEFF],
-           c = coeff[C_COEFF];
+                b = coeff[B_COEFF],
+                c = coeff[C_COEFF];
 
     if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
     {

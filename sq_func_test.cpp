@@ -79,7 +79,7 @@ int dispatcher (long double* coeffs, long double* roots, long double* roots_ref,
         return -1;
     }
 
-    long double      x1 = roots[X1],
+    long double x1 = roots[X1],
                 x2 = roots[X2],
             x1_ref = roots_ref[X1_REF],
             x2_ref = roots_ref[X2_REF];

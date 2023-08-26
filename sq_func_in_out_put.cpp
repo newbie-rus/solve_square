@@ -14,6 +14,7 @@ void input_coefficient (char name, long double* coefficient)
     while (scanf ("%Lf", &coeff) == 0 || isfinite(coeff) == 0)
     {
         clear_the_input_buffer ();
+
         printf ("Введено некоректное значение, попробуйте ввести коэффициент \'%c\' заново:\n", name);
     }
 
@@ -47,7 +48,7 @@ int output_roots (int solutions, long double* roots)
     }
 
     long double x1 = roots[X1],
-               x2  = roots[X2];
+                x2 = roots[X2];
 
     switch (solutions)
     {
