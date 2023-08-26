@@ -1,7 +1,6 @@
 #include <stdio.h>
+#include "sq.h"
 #include <math.h>
-#include <assert.h>
-#include "square.h"
 
 /**
  * @file
@@ -33,8 +32,8 @@ int main()
         color_output(hello_u, YELLOW);
         printf ("Ваше уравнение имеет вид аx^2 + bx + c = 0, если нет, то приведите к данному виду.\n");
 
-        double coefficients[AMOUNT_COEFFS] = {NAN, NAN, NAN};
-        double roots       [AMOUNT_ROOTS]  = {NAN, NAN};
+        long double coefficients[AMOUNT_COEFFS] = {NAN, NAN, NAN};
+        long double roots       [AMOUNT_ROOTS]  = {NAN, NAN};
 
         input_coefficient ('a', coefficients);
         input_coefficient ('b', coefficients);

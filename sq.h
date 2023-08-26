@@ -4,13 +4,17 @@
  * @brief Объявление прототипов функций и констант
  *
  */
-const        double EPSILON = 1e-2;
+const        long double EPSILON = 1e-6;
+
 const     int AMOUNT_COEFFS = 3;
 const      int AMOUNT_ROOTS = 2;
+
 const       char  hello_t[] = "**HELLO TEST MODE**";
 const        char hello_u[] = "**HELLO USER MODE**";
+
 const         char test_y[] = "**Завершен успешно**";
 const         char test_n[] = "**Завершен c ошибкой**";
+
 const char ERROR_ISFINITE[] = "Бесконечное число или NAN";
 const      char PATH_NULL[] = "Нулевой указатель";
 const     char SAME_PATHS[] = "Одинаковые пути на разные массивы";
@@ -52,7 +56,7 @@ enum AMOUNT_ROOTS {
  *
  * @param [out]  coefficient     coefficient - массив, хранящий коэффициенты уравнения
  */
-void input_coefficient (char name, double* coefficient);
+void input_coefficient (char name, long double* coefficient);
 
 /**
  * @brief Универсальная функция для очистки буфера ввода
@@ -67,7 +71,7 @@ void clear_the_input_buffer (void);
  *
  * @return int  Возвращает количество корней
  */
-int solve_equation(double* coeff, double* roots);
+int solve_equation(long double* coeff, long double* roots);
 
 /**
  * @brief  Решает линейные уравнения
@@ -77,7 +81,7 @@ int solve_equation(double* coeff, double* roots);
  *
  * @return int  Возвращает количество корней
  */
-int solution_of_a_linear_equation (double* coeff, double* roots);
+int solution_of_a_linear_equation (long double* coeff, long double* roots);
 
 /**
  * @brief Решает квадратные уравнения
@@ -87,7 +91,7 @@ int solution_of_a_linear_equation (double* coeff, double* roots);
  *
  * @return int  Возвращает количество корней
  */
-int solution_of_a_quadratic_equation (double* coeff, double* roots);
+int solution_of_a_quadratic_equation (long double* coeff, long double* roots);
 
 /**
  * @brief  Выводит в консоль корни уравнения и их количество
@@ -95,7 +99,7 @@ int solution_of_a_quadratic_equation (double* coeff, double* roots);
  * @param [in] solutions    solutions - количество корней
  * @param [in] roots             root - массив, хранящий корни уравнения
  */
-int output_roots (int solutions, double* roots);
+int output_roots (int solutions, long double* roots);
 
 /**
  * @brief  Сравнивает число с нулем
@@ -103,7 +107,7 @@ int output_roots (int solutions, double* roots);
  * @param [in] num     num - число, которое необходимо сравнить с нулем
  * @return bool  Возвращает правду если число равно нулю и ложь во всех других случаях
  */
-bool iszero (double num);
+bool iszero (long double num);
 
 /**
  * @brief Запускает тестирование программы, решающей квадратные уравнения
@@ -122,7 +126,7 @@ int test (void);
  * @param [in]  solutions_ref      solutions_ref - правильное количество корней
  * @param [out]  n_test_y               n_test_y - количество успешно пройденных тестов
  */
-int dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref, int* n_test_y);
+int dispatcher (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref, int* n_test_y);
 
 /**
  * @brief  Выводит всю информацию по тесту, который провалился
@@ -133,7 +137,7 @@ int dispatcher (double* coeffs, double* roots, double* roots_ref, int solutions,
  * @param [in]  solutions              solutions - количество корней, которое посчитала функция, решающая квадратные ураванение
  * @param [in]  solutions_ref      solutions_ref - правильное количество корней
  */
-int test_finished_error (double* coeffs, double* roots, double* roots_ref, int solutions, int solutions_ref);
+int test_finished_error (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref);
 
 /**
  * @brief Сравнивает два числа с плавающей точкой
@@ -142,7 +146,7 @@ int test_finished_error (double* coeffs, double* roots, double* roots_ref, int s
  * @param [in] num2    num2 - одно из чисел для сравнения
  * @return bool Возвращает правду, если числа равны и ложь во всех других случаях
  */
-bool equality_double (double num1, double num2);
+bool equality_double (long double num1, long double num2);
 
 /**
  * @brief Делает вывод в консоль цветным
@@ -152,4 +156,11 @@ bool equality_double (double num1, double num2);
  */
 void color_output (const char* str, int color);
 
-bool my_assert(bool data, const char* error);
+/**
+ * @brief Отлавливет ошибки связанные с неправильными данными, переданными функции
+ *
+ * @param [in]  data   Условие для проверки
+ * @param [in]  error  Наименование ошибки
+ * @return true - если ошибка произошла и false во всех других случаях
+ */
+bool my_assert (bool data, const char* error);
