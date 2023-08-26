@@ -7,92 +7,86 @@
 int test (void)
 {
     FILE* fp = fopen ("input_data_test", "r");
-    int n_test_y = 0;
 
     int amount_test = NO_NUM_TEST;
     fscanf (fp, "%d", &amount_test);
 
     for(int test_idx = 1; test_idx <= amount_test; test_idx++)
     {
-          long double coeffs[AMOUNT_COEFFS] = {NAN, NAN, NAN};
-        long double roots_ref[AMOUNT_ROOTS] = {NAN, NAN};
-            long double roots[AMOUNT_ROOTS] = {NAN, NAN};
-                              int solutions = NO_VALID_ROOTS;
-                          int solutions_ref = NO_VALID_ROOTS;
+        COEFFS_AND_ROOTS data_t = {
+                                      NAN, NAN, NAN,
+                                      NO_VALID_ROOTS,
+                                      NAN, NAN,
+                                      NAN, NAN
+                                    };
+
+        int solutions = NO_VALID_ROOTS;
 
         printf ("\033[35mtest %d:  \033[0m", test_idx);
-        fscanf (fp, "%Lf %Lf %Lf %Lf %Lf %d", &coeffs[A_COEFF], &coeffs[B_COEFF], &coeffs[C_COEFF], &roots_ref[X1_REF], &roots_ref[X2_REF], &solutions_ref);
+        fscanf (fp, "%Lf %Lf %Lf %Lf %Lf %d", &data_t.a, &data_t.b, &data_t.c, &data_t.x1_ref, &data_t.x2_ref, &data_t.solutions_ref);
 
-        solutions = solve_equation (coeffs, roots);
+        solutions = solve_equation (&data_t);
         if (solutions == -1)
             return -1;
 
-        if (dispatcher (coeffs, roots, roots_ref, solutions, solutions_ref, &n_test_y) == -1)
+        if (dispatcher (solutions, &data_t) == -1)
             return -1;
     }
 
     fclose (fp);
-    return n_test_y;
+    return 0;
 }
 
 
-int dispatcher (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref, int* n_test_y)
+int dispatcher (int solutions, COEFFS_AND_ROOTS* data_t)
 {
-    if (my_assert ((coeffs == NULL), PATH_NULL))
+    if (my_assert ((data_t == NULL), PATH_NULL))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((roots == NULL), PATH_NULL))
+
+    if (my_assert ((isfinite (data_t -> a) == 0), ERROR_ISFINITE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((roots == coeffs), SAME_PATHS))
+    if (my_assert ((isfinite (data_t -> b) == 0), ERROR_ISFINITE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((roots == roots_ref), SAME_PATHS))
+    if (my_assert ((isfinite (data_t -> c) == 0), ERROR_ISFINITE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((coeffs == roots_ref), SAME_PATHS))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
-    if (my_assert ((roots == roots_ref && roots == coeffs), SAME_PATHS))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
-    if (my_assert ((solutions_ref < 0), UNREAL_VALUE))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
+
     if (my_assert ((solutions < 0), UNREAL_VALUE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-
-    long double x1 = roots[X1],
-                x2 = roots[X2],
-            x1_ref = roots_ref[X1_REF],
-            x2_ref = roots_ref[X2_REF];
-
-    if (solutions_ref == solutions)
+    if (my_assert (((data_t -> solutions_ref) < 0), UNREAL_VALUE))
     {
-        switch(solutions_ref)
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+
+    long double x1 = data_t -> x1 ,
+                x2 = data_t -> x2,
+            x1_ref = data_t -> x1_ref,
+            x2_ref = data_t -> x2_ref;
+
+    if ((*data_t).solutions_ref == solutions)
+    {
+        switch(data_t -> solutions_ref)
         {
             case NO_ROOTS:
                 if ((isnan (x1) != 0) && (isnan (x2) != 0) && (isnan (x1_ref) != 0) && (isnan (x2_ref) != 0))
                 {
                     color_output (test_y, GREEN);
-                    n_test_y++;
+                    return 0;
                 }
                 break;
 
@@ -100,7 +94,7 @@ int dispatcher (long double* coeffs, long double* roots, long double* roots_ref,
                 if (equality_double (x1, x1_ref) && (isnan (x2) != 0) && (isnan (x2_ref) != 0))
                 {
                    color_output (test_y, GREEN);
-                    n_test_y++;
+                    return 0;
                 }
                 break;
 
@@ -108,7 +102,7 @@ int dispatcher (long double* coeffs, long double* roots, long double* roots_ref,
                 if (equality_double (x1, x1_ref) && equality_double (x2, x2_ref))
                 {
                    color_output (test_y, GREEN);
-                    n_test_y++;
+                    return 0;
                 }
                 break;
 
@@ -116,78 +110,62 @@ int dispatcher (long double* coeffs, long double* roots, long double* roots_ref,
                 if ((isnan (x1) != 0) && (isnan (x2) != 0) && (isnan (x1_ref) != 0) && (isnan (x2_ref) != 0))
                 {
                    color_output (test_y, GREEN);
-                    n_test_y++;
+                    return 0;
                 }
                 break;
 
             default:
-                return test_finished_error (coeffs, roots, roots_ref, solutions, solutions_ref);
+                return test_finished_error (solutions, data_t);
         }
     }
     else
-        return test_finished_error (coeffs, roots, roots_ref, solutions, solutions_ref);
-
+        return test_finished_error (solutions, data_t);
     return 0;
 }
 
 
-int test_finished_error (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref)
+int test_finished_error (int solutions, COEFFS_AND_ROOTS* data_t)
 {
-    if (my_assert ((coeffs == NULL), PATH_NULL))
+    if (my_assert ((data_t == NULL), PATH_NULL))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((roots == NULL), PATH_NULL))
+
+    if (my_assert ((isfinite (data_t -> a) == 0), ERROR_ISFINITE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((roots == coeffs), SAME_PATHS))
+    if (my_assert ((isfinite (data_t -> b) == 0), ERROR_ISFINITE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((roots == roots_ref), SAME_PATHS))
+    if (my_assert ((isfinite (data_t -> c) == 0), ERROR_ISFINITE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((coeffs == roots_ref), SAME_PATHS))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
-    if (my_assert ((roots == roots_ref && roots == coeffs), SAME_PATHS))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
-    if (my_assert ((solutions_ref < 0), UNREAL_VALUE))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
+
     if (my_assert ((solutions < 0), UNREAL_VALUE))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
+    if (my_assert (((data_t -> solutions_ref) < 0), UNREAL_VALUE))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
-    long double  a = coeffs[A_COEFF],
-                 b = coeffs[B_COEFF],
-                 c = coeffs[C_COEFF],
-                x1 = roots[X1],
-                x2 = roots[X2],
-            x1_ref = roots_ref[X1_REF],
-            x2_ref = roots_ref[X2_REF];
 
     color_output (test_n, RED);
 
-    printf ("коэффициенты: a = %Lf b = %Lf  c = %Lf\n", a, b, c);
+    printf ("коэффициенты: a = %Lf b = %Lf  c = %Lf\n", data_t -> a, data_t -> b, data_t -> c);
     printf ("полученное количество корней: %d\n", solutions);
-    printf ("правильное количество корней: %d\n", solutions_ref);
-    printf ("полученные корни: x1 = %Lf  x2 = %Lf\n", x1, x2);
-    printf ("правильные корни: x1 = %Lf  x2 = %Lf\n", x1_ref, x2_ref);
+    printf ("правильное количество корней: %d\n", (*data_t).solutions_ref);
+    printf ("полученные корни: x1 = %Lf  x2 = %Lf\n", data_t -> x1, data_t -> x2);
+    printf ("правильные корни: x1 = %Lf  x2 = %Lf\n", (*data_t).x1_ref, (*data_t).x2_ref);
     return 0;
 }
