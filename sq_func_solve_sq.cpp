@@ -2,6 +2,10 @@
 #include <math.h>
 #include "sq.h"
 
+/**
+ * @file
+ */
+
 int solve_equation (long double* coeff, long double* roots)
 {
     long double a = coeff[A_COEFF],

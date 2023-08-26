@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include "sq.h"
 #include <math.h>
+
+/**
+ * @file
+ */
+
 void input_coefficient (char name, long double* coefficient)
 {
     printf ("Введите значение коэффициента \'%c\': \n", name);

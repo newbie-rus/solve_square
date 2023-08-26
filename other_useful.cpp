@@ -2,6 +2,10 @@
 #include "sq.h"
 #include <math.h>
 
+/**
+ * @file
+ */
+
 void clear_the_input_buffer (void)
 {
     int ch = getchar ();

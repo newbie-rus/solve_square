@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "sq.h"
 #include <math.h>
-
+/**
+ * @file
+ */
 int test (void)
 {
     FILE* fp = fopen ("input_data_test", "r");

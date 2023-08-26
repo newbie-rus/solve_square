@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['solution_5fof_5fa_5flinear_5fequation_0',['solution_of_a_linear_equation',['../square_8h.html#adea02ebfc5aaa18efa50d0f1cc328474',1,'square.h']]],
-  ['solution_5fof_5fa_5fquadratic_5fequation_1',['solution_of_a_quadratic_equation',['../square_8h.html#aba7e874385e9fbbadc7dc87fdc353cfc',1,'square.h']]],
-  ['solve_5fequation_2',['solve_equation',['../square_8h.html#ac68ba364bacd7fc31b03737eaf363fcc',1,'square.h']]]
+  ['output_5froots_0',['output_roots',['../sq__func__in__out__put_8cpp.html#a8c02db885044293f0d7c7ea6b4506bf3',1,'output_roots(int solutions, long double *roots):&#160;sq_func_in_out_put.cpp'],['../sq_8h.html#a8c02db885044293f0d7c7ea6b4506bf3',1,'output_roots(int solutions, long double *roots):&#160;sq_func_in_out_put.cpp']]]
 ];

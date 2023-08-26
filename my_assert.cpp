@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "sq.h"
 
-
+/**
+ * @file
+ */
 bool my_assert(bool data, const char* error)
 {
     if (data)
