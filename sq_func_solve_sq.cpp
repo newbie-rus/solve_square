@@ -6,11 +6,11 @@
  * @file
  */
 
-int solve_equation (COEFFS_AND_ROOTS *data)
+int solve_equation (long double* coeff, long double* roots)
 {
-    long double a = data -> a,
-                b = data -> b,
-                c = data -> c;
+    long double a = coeff[A_COEFF],
+                b = coeff[B_COEFF],
+                c = coeff[C_COEFF];
 
     if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
     {
@@ -27,25 +27,34 @@ int solve_equation (COEFFS_AND_ROOTS *data)
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((data == NULL), PATH_NULL))
+    if (my_assert ((coeff == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeff), SAME_PATHS))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
 
-
     if (iszero (a) || iszero (c))
-        return solution_of_a_linear_equation (data);
+        return solution_of_a_linear_equation (coeff, roots);
     else
-        return solution_of_a_quadratic_equation (data);
+        return solution_of_a_quadratic_equation (coeff, roots);
 }
 
 
-int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data)
+int solution_of_a_linear_equation (long double* coeff, long double* roots)
 {
-    long double a = data -> a,
-                b = data -> b,
-                c = data -> c;
+    long double a = coeff[A_COEFF],
+                b = coeff[B_COEFF],
+                c = coeff[C_COEFF];
 
     if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
     {
@@ -62,12 +71,21 @@ int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data)
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((data == NULL), PATH_NULL))
+    if (my_assert ((coeff == NULL), PATH_NULL))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeff), SAME_PATHS))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
 
     if (iszero (c))
     {
@@ -77,20 +95,20 @@ int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data)
                 return INFINITY_ROOTS;
             else
             {
-            (*data).x1 = 0;
+            roots[X1] = 0;
             return ONE_ROOT;
             }
         }
         else
         if (iszero (b))
         {
-            (*data).x1 = 0;
+            roots[X1] = 0;
             return ONE_ROOT;
         }
         else
         {
-            (*data).x1 = 0;
-            (*data).x2 = -b / a;
+            roots[X1] = 0;
+            roots[X2] = -b / a;
             return TWO_ROOTS;
         }
     }
@@ -98,7 +116,7 @@ int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data)
     {
         if (!iszero (b))
         {
-            (*data).x1 = -c / b;
+            roots[X1] = -c / b;
             return ONE_ROOT;
         }
         else
@@ -112,11 +130,11 @@ int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data)
 }
 
 
-int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data)
+int solution_of_a_quadratic_equation (long double* coeff, long double* roots)
 {
-    long double a = data -> a,
-                b = data -> b,
-                c = data -> c;
+    long double a = coeff[A_COEFF],
+                b = coeff[B_COEFF],
+                c = coeff[C_COEFF];
 
     if (my_assert ((isfinite (a) == 0), ERROR_ISFINITE))
     {
@@ -133,7 +151,17 @@ int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data)
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
     }
-    if (my_assert ((data == NULL), PATH_NULL))
+    if (my_assert ((coeff == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == NULL), PATH_NULL))
+    {
+        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
+        return -1;
+    }
+    if (my_assert ((roots == coeff), SAME_PATHS))
     {
         printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
         return -1;
@@ -142,14 +170,14 @@ int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data)
     long double D = b * b - 4 * a * c;
     if (iszero (D))
     {
-        (*data).x1 = -b / (2 * a);
+        roots[X1] = -b / (2 * a);
         return ONE_ROOT;
     }
     else if (D >= EPSILON)
     {
         long double sqrtD = sqrt (D);
-                (*data).x1 = (-b + sqrtD) / (2 * a);
-                (*data).x2 = (-b - sqrtD) / (2 * a);
+                roots[X1] = (-b + sqrtD) / (2 * a);
+                roots[X2] = (-b - sqrtD) / (2 * a);
         return TWO_ROOTS;
     }
     else

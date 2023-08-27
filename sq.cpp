@@ -32,24 +32,22 @@ int main()
         color_output(hello_u, YELLOW);
         printf ("Ваше уравнение имеет вид аx^2 + bx + c = 0, если нет, то приведите к данному виду.\n");
 
-        COEFFS_AND_ROOTS data = {
-                                   input_coefficient ('a'),
-                                   input_coefficient ('b'),
-                                   input_coefficient ('c'),
-                                   NO_VALID_ROOTS,
-                                   NAN, NAN,
-                                   NAN, NAN
-                                 };
+        long double coefficients[AMOUNT_COEFFS] = {NAN, NAN, NAN};
+        long double roots       [AMOUNT_ROOTS]  = {NAN, NAN};
 
-        int solutions = solve_equation (&data);
+        input_coefficient ('a', coefficients);
+        input_coefficient ('b', coefficients);
+        input_coefficient ('c', coefficients);
 
+        int solutions = NO_VALID_ROOTS;
+            solutions = solve_equation (coefficients, roots);
         if (solutions == -1)
         {
             printf ("Аварийное завершение функции");
             return -1;
         }
 
-        if (output_roots (&data, solutions) == -1)
+        if (output_roots (solutions, roots) == -1)
         {
             printf ("Аварийное завершение функции");
             return -1;

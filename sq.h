@@ -20,13 +20,6 @@ const      char PATH_NULL[] = "Нулевой указатель";
 const     char SAME_PATHS[] = "Одинаковые пути на разные массивы";
 const   char UNREAL_VALUE[] = "Невозможное значение переменной";
 
-struct COEFFS_AND_ROOTS {
-                           long double a, b, c;
-                           int solutions_ref;
-                           long double x1_ref, x2_ref;
-                           long double x1, x2;
-                         };
-
 enum COLOR {
                        RED = 31,
                      GREEN = 32,
@@ -63,7 +56,7 @@ enum AMOUNT_ROOTS {
  *
  * @param [out]  coefficient     coefficient - массив, хранящий коэффициенты уравнения
  */
-long double input_coefficient (char name);
+void input_coefficient (char name, long double* coefficient);
 
 /**
  * @brief Универсальная функция для очистки буфера ввода
@@ -78,7 +71,7 @@ void clear_the_input_buffer (void);
  *
  * @return int  Возвращает количество корней
  */
-int solve_equation (COEFFS_AND_ROOTS* data);
+int solve_equation(long double* coeff, long double* roots);
 
 /**
  * @brief  Решает линейные уравнения
@@ -88,7 +81,7 @@ int solve_equation (COEFFS_AND_ROOTS* data);
  *
  * @return int  Возвращает количество корней
  */
-int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data);
+int solution_of_a_linear_equation (long double* coeff, long double* roots);
 
 /**
  * @brief Решает квадратные уравнения
@@ -98,7 +91,7 @@ int solution_of_a_linear_equation (COEFFS_AND_ROOTS *data);
  *
  * @return int  Возвращает количество корней
  */
-int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data);
+int solution_of_a_quadratic_equation (long double* coeff, long double* roots);
 
 /**
  * @brief  Выводит в консоль корни уравнения и их количество
@@ -106,7 +99,8 @@ int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data);
  * @param [in] solutions    solutions - количество корней
  * @param [in] roots             root - массив, хранящий корни уравнения
  */
-int output_roots (COEFFS_AND_ROOTS* data, int solutions);
+int output_roots (int solutions, long double* roots);
+
 /**
  * @brief  Сравнивает число с нулем
  *
@@ -132,7 +126,7 @@ int test (void);
  * @param [in]  solutions_ref      solutions_ref - правильное количество корней
  * @param [out]  n_test_y               n_test_y - количество успешно пройденных тестов
  */
-int dispatcher (int solutions, COEFFS_AND_ROOTS* data_t);
+int dispatcher (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref, int* n_test_y);
 
 /**
  * @brief  Выводит всю информацию по тесту, который провалился
@@ -143,7 +137,7 @@ int dispatcher (int solutions, COEFFS_AND_ROOTS* data_t);
  * @param [in]  solutions              solutions - количество корней, которое посчитала функция, решающая квадратные ураванение
  * @param [in]  solutions_ref      solutions_ref - правильное количество корней
  */
-int test_finished_error (int solutions, COEFFS_AND_ROOTS* data_t);
+int test_finished_error (long double* coeffs, long double* roots, long double* roots_ref, int solutions, int solutions_ref);
 
 /**
  * @brief Сравнивает два числа с плавающей точкой
