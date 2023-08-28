@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "square.h"
+#include "square_func_prototype.h"
 #include <math.h>
 
 /**
@@ -11,6 +11,7 @@ long double input_coefficient (char name)
     printf ("Введите значение коэффициента \'%c\': \n", name);
 
     long double coeff = NAN;
+
     while (scanf ("%Lf", &coeff) == 0 || isfinite(coeff) == 0)
     {
         clear_the_input_buffer ();

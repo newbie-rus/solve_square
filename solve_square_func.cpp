@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "square.h"
+#include "square_func_prototype.h"
 
 /**
  * @file
@@ -11,6 +11,7 @@ int solve_equation (COEFFS_AND_ROOTS *data)
     long double a = data -> a,
                 b = data -> b,
                 c = data -> c;
+
     if (my_assert(isfinite (a) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
         my_assert(isfinite (b) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
         my_assert(isfinite (c) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
@@ -92,11 +93,13 @@ int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data)
         return ERROR_OUTPUT;
 
     long double D = b * b - 4 * a * c;
+
     if (iszero (D))
     {
         (*data).x1 = -b / (2 * a);
         return ONE_ROOT;
     }
+
     else if (D >= EPSILON)
     {
         long double sqrtD = sqrt (D);
@@ -104,6 +107,7 @@ int solution_of_a_quadratic_equation (COEFFS_AND_ROOTS *data)
                 (*data).x2 = (-b - sqrtD) / (2 * a);
         return TWO_ROOTS;
     }
+
     else
         return NO_ROOTS;
 }

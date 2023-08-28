@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "square.h"
+#include "square_func_prototype.h"
 #include <math.h>
 
 /**
