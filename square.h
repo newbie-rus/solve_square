@@ -4,6 +4,10 @@
  * @brief Объявление прототипов функций и констант
  *
  */
+
+#define COLOR_MORE(color, str, ...) printf("\033[%dm" #str "\033[0m", color, __VA_ARGS__)
+#define COLOR(color, str) printf("\033[%dm%s\033[0m\n", color, str)
+
 const        long double EPSILON = 1e-6;
 
 const     int AMOUNT_COEFFS = 3;
@@ -19,6 +23,8 @@ const char ERROR_ISFINITE[] = "Бесконечное число или NAN";
 const      char PATH_NULL[] = "Нулевой указатель";
 const     char SAME_PATHS[] = "Одинаковые пути на разные массивы";
 const   char UNREAL_VALUE[] = "Невозможное значение переменной";
+
+const      int ERROR_OUTPUT = -1;
 
 struct COEFFS_AND_ROOTS {
                            long double a, b, c;
@@ -163,10 +169,12 @@ bool equality_double (long double num1, long double num2);
 void color_output (const char* str, int color);
 
 /**
- * @brief Отлавливет ошибки связанные с неправильными данными, переданными функции
+ * @brief Проверяет код на ошибки
  *
- * @param [in]  data   Условие для проверки
- * @param [in]  error  Наименование ошибки
- * @return true - если ошибка произошла и false во всех других случаях
+ * @param data      Условие, выполнение которого говрит нам об ошибке в коде
+ * @param error     Наименование ошибки
+ * @param file      Имя файла, в котором произошла ошибка
+ * @param func      Имя функции, в которой произошла ошибка
+ * @param line      Номер строки, в которой произошла ошибка
  */
-bool my_assert (bool data, const char* error);
+bool my_assert(bool data, const char* error, const char* file, const char* func, int line);

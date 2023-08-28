@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "sq.h"
+#include "square.h"
 #include <math.h>
 
 /**
@@ -24,11 +24,8 @@ long double input_coefficient (char name)
 
 int output_roots (COEFFS_AND_ROOTS* data, int solutions)
 {
-    if (my_assert ((data == NULL), PATH_NULL))
-    {
-        printf ("строка: %d\nфункция: %s\n", __LINE__, __func__ );
-        return -1;
-    }
+    if (my_assert(data == NULL, PATH_NULL, __FILE__, __func__, __LINE__))
+        return ERROR_OUTPUT;
 
     switch (solutions)
     {

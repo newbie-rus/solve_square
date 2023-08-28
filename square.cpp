@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "sq.h"
+#include "square.h"
 #include <math.h>
 
 /**
@@ -21,15 +21,10 @@
 int main()
 {
     #ifdef TEST
-        color_output(hello_t, YELLOW);
-        if (test() == -1)
-        {
-            printf ("Аварийное завершение функции");
-            return -1;
-        }
-        return 0;
+        COLOR(YELLOW, hello_t);
+        return test();
     #else
-        color_output(hello_u, YELLOW);
+        COLOR(YELLOW, hello_u);
         printf ("Ваше уравнение имеет вид аx^2 + bx + c = 0, если нет, то приведите к данному виду.\n");
 
         COEFFS_AND_ROOTS data = {
@@ -44,16 +39,8 @@ int main()
         int solutions = solve_equation (&data);
 
         if (solutions == -1)
-        {
-            printf ("Аварийное завершение функции");
-            return -1;
-        }
-
-        if (output_roots (&data, solutions) == -1)
-        {
-            printf ("Аварийное завершение функции");
-            return -1;
-        }
-        return solutions;
+            return ERROR_OUTPUT;
+        else
+            return output_roots (&data, solutions);
     #endif
 }
