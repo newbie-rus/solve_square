@@ -16,11 +16,11 @@
    ```
 4) Для компиляции программы тестирования введите команду
     ```
-    g++ -DTEST square.cpp solve_square_func.cpp square_io_func.cpp square_test_func.cpp equality_num.cpp clear_the_input_buffer.cpp my_assert.cpp
+    g++ -DTEST square.cpp solve_square_func.cpp square_io_func.cpp square_test_func.cpp equality_num.cpp clear_the_input_buffer.cpp
     ```
 5) Для компиляции программы в пользовательском режиме введите команду
    ```
-    g++ square.cpp solve_square_func.cpp square_io_func.cpp square_test_func.cpp equality_num.cpp clear_the_input_buffer.cpp my_assert.cpp
+    g++ square.cpp solve_square_func.cpp square_io_func.cpp square_test_func.cpp equality_num.cpp clear_the_input_buffer.cpp
    ```
 6) У вас создатся испольняемый файл, для его запуска введите команду(<filename> - имя файла, который создался)
    ```

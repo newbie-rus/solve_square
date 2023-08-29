@@ -70,7 +70,7 @@ bool iszero (long double num);
  *
  * @return int  Возвращает количество успешно пройденных тестов
  */
-int test (void);
+int start_test (void);
 
 /**
  * @brief
@@ -105,21 +105,10 @@ int test_finished_error (int solutions, COEFFS_AND_ROOTS* data_t);
 bool equality_double (long double num1, long double num2);
 
 /**
- * @brief Проверяет код на ошибки
- *
- * @param data      Условие, выполнение которого говрит нам об ошибке в коде
- * @param error     Наименование ошибки
- * @param file      Имя файла, в котором произошла ошибка
- * @param func      Имя функции, в которой произошла ошибка
- * @param line      Номер строки, в которой произошла ошибка
- */
-bool my_assert(bool data, const char* error, const char* file, const char* func, int line);
-
-/**
  * @brief Функция выполняет проверку результатов тестирования
  *
  * @param[in] solutions  Количество корней уравнения, которое нашла программа
  * @param[in] data_t     Структура, содержащая данные для прохождения тестирования
  * @return int           Возвращает TEST_COMPLITED, если тест прошел успешно и TEST_FAILED, если тест провалился
  */
-int testing(int solutions, COEFFS_AND_ROOTS* data_t);
+int checking_test_results(int solutions, COEFFS_AND_ROOTS* data_t);

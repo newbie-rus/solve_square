@@ -6,7 +6,7 @@
  * @file
  */
 
-int test (void)
+int start_test (void)
 {
     FILE* test_file = fopen ("input_data_test", "r");
 
@@ -45,16 +45,14 @@ int test (void)
 
 int dispatcher (int solutions, COEFFS_AND_ROOTS* data_t)
 {
+    my_assert(isfinite (data_t -> a) == 0, ERROR_ISFINITE);
+    my_assert(isfinite (data_t -> b) == 0, ERROR_ISFINITE);
+    my_assert(isfinite (data_t -> c) == 0, ERROR_ISFINITE);
+    my_assert(                data_t == NULL,   PATH_NULL);
+    my_assert(                solutions < 0, UNREAL_VALUE);
+    my_assert((data_t -> solutions_ref) < 0, UNREAL_VALUE);
 
-    if (my_assert(isfinite (data_t -> a) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(isfinite (data_t -> b) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(isfinite (data_t -> c) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(                data_t == NULL,   PATH_NULL, __FILE__, __func__, __LINE__) ||
-        my_assert(                solutions < 0, UNREAL_VALUE, __FILE__, __func__, __LINE__) ||
-        my_assert((data_t -> solutions_ref) < 0, UNREAL_VALUE, __FILE__, __func__, __LINE__))
-        return ERROR_OUTPUT;
-
-    switch(testing(solutions, data_t))
+    switch(checking_test_results(solutions, data_t))
     {
         case TEST_COMPLETED:
             COLOR(GREEN, test_y);
@@ -75,34 +73,31 @@ int dispatcher (int solutions, COEFFS_AND_ROOTS* data_t)
 
 int test_finished_error (int solutions, COEFFS_AND_ROOTS* data_t)
 {
-
-    if (my_assert(isfinite (data_t -> a) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(isfinite (data_t -> b) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(isfinite (data_t -> c) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(                data_t == NULL,   PATH_NULL, __FILE__, __func__, __LINE__) ||
-        my_assert(                solutions < 0, UNREAL_VALUE, __FILE__, __func__, __LINE__) ||
-        my_assert((data_t -> solutions_ref) < 0, UNREAL_VALUE, __FILE__, __func__, __LINE__))
-        return ERROR_OUTPUT;
+    my_assert(isfinite (data_t -> a) == 0, ERROR_ISFINITE);
+    my_assert(isfinite (data_t -> b) == 0, ERROR_ISFINITE);
+    my_assert(isfinite (data_t -> c) == 0, ERROR_ISFINITE);
+    my_assert(                data_t == NULL,   PATH_NULL);
+    my_assert(                solutions < 0, UNREAL_VALUE);
+    my_assert((data_t -> solutions_ref) < 0, UNREAL_VALUE);
 
     COLOR(RED, test_n);
 
     printf ("коэффициенты: a = %Lf b = %Lf  c = %Lf\n", data_t -> a, data_t -> b, data_t -> c);
     printf ("полученное количество корней: %d\n", solutions);
-    printf ("правильное количество корней: %d\n", (*data_t).solutions_ref);
-    printf ("полученные корни: x1 = %Lf  x2 = %Lf\n", data_t -> x1, data_t -> x2);
-    printf ("правильные корни: x1 = %Lf  x2 = %Lf\n", (*data_t).x1_correct, (*data_t).x2_correct);
+    printf ("правильное количество корней: %d\n",     data_t -> solutions_ref);
+    printf ("полученные корни: x1 = %Lf  x2 = %Lf\n", data_t -> x1,         data_t -> x2);
+    printf ("правильные корни: x1 = %Lf  x2 = %Lf\n", data_t -> x1_correct, data_t -> x2_correct);
     return 0;
 }
 
-int testing(int solutions, COEFFS_AND_ROOTS* data_t)
+int checking_test_results (int solutions, COEFFS_AND_ROOTS* data_t)
 {
-    if (my_assert(isfinite (data_t -> a) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(isfinite (data_t -> b) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(isfinite (data_t -> c) == 0, ERROR_ISFINITE, __FILE__, __func__, __LINE__) ||
-        my_assert(                data_t == NULL,   PATH_NULL, __FILE__, __func__, __LINE__) ||
-        my_assert(                solutions < 0, UNREAL_VALUE, __FILE__, __func__, __LINE__) ||
-        my_assert((data_t -> solutions_ref) < 0, UNREAL_VALUE, __FILE__, __func__, __LINE__))
-        return ERROR_OUTPUT;
+    my_assert(isfinite (data_t -> a) == 0, ERROR_ISFINITE);
+    my_assert(isfinite (data_t -> b) == 0, ERROR_ISFINITE);
+    my_assert(isfinite (data_t -> c) == 0, ERROR_ISFINITE);
+    my_assert(                data_t == NULL,   PATH_NULL);
+    my_assert(                solutions < 0, UNREAL_VALUE);
+    my_assert((data_t -> solutions_ref) < 0, UNREAL_VALUE);
 
     long double x1 = data_t -> x1 ,
                 x2 = data_t -> x2,
@@ -137,8 +132,6 @@ int testing(int solutions, COEFFS_AND_ROOTS* data_t)
                 return TEST_FAILED;
         }
     }
-    else
-        return TEST_FAILED;
 
-    return 0;
+    return TEST_FAILED;
 }

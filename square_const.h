@@ -7,6 +7,15 @@
 #define COLOR_MORE(color, str, ...) printf("\033[%dm" #str "\033[0m", color, __VA_ARGS__)
 #define COLOR(color, str) printf("\033[%dm%s\033[0m\n", color, str)
 
+#define my_assert(condition, error_code)                \
+  if (condition)                                        \
+  {                                                     \
+    printf("Сбой в программе ошибка: %s\n"              \
+           "файл: %s, функция: %s, строка: %d\n",       \
+           error_code, __FILE__, __func__, __LINE__);   \
+    return ERROR_OUTPUT;                                \
+  }
+
 const        long double EPSILON = 1e-6;
 
 const     int AMOUNT_COEFFS = 3;

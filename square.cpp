@@ -23,7 +23,7 @@ int main()
 {
     #ifdef TEST
         COLOR(YELLOW, hello_t);
-        return test();
+        return start_test();
     #else
         COLOR(YELLOW, hello_u);
         printf ("Ваше уравнение имеет вид аx^2 + bx + c = 0, если нет, то приведите к данному виду.\n");
