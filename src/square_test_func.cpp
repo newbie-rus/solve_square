@@ -8,7 +8,7 @@
 
 int start_test (void)
 {
-    FILE* test_file = fopen ("input_data_test", "r");
+    FILE* test_file = fopen ("test_data/input_data_test", "r");
 
     int amount_test = NO_NUM_TEST;
     fscanf (test_file, "%d", &amount_test);
